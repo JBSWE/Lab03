@@ -46,7 +46,7 @@ object Lab03 {
     println ("20): " + string_of_RT( rt2))  // 1(2,3(4),5)
   }
 
-  val ls1 = List('a' , 'b')
+  val ls1 = List('a' , 'b' , 'c' , 'd' )
   val ls2 = List('a','a','a','a','b','c','c','a','a','d','e','e','e','e')
 
   def last_snd [A] (xs: List[A]) : Option [A] = {
@@ -66,7 +66,7 @@ object Lab03 {
     }
 
 
-    }
+  }
 
 
 
@@ -77,8 +77,6 @@ object Lab03 {
        * For example:
        * 	compress (List(1,1,2,2,1)) ==> List(1,2,1)
        */
-
-
 
     List()
 
