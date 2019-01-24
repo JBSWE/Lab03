@@ -78,6 +78,8 @@ object Lab03 {
        * 	compress (List(1,1,2,2,1)) ==> List(1,2,1)
        */
 
+
+
     List()
 
   }
@@ -89,9 +91,10 @@ object Lab03 {
        * For example:
        * 	 removeDupl (List(1,1,2,2,1)) ==> List(1,2)
        */
-      List()
 
-    }
+     List()
+
+   }
 
    def findFirst[A] (fx: A => Boolean, xs:List[A]): Option [A] = {
      /* # 04
