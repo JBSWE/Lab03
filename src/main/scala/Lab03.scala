@@ -1,3 +1,6 @@
+import scala.collection.mutable.ListBuffer
+import scala.collection.script.Remove
+
 object Lab03 {
 
   def main(args: Array[String]): Unit = {
@@ -73,7 +76,36 @@ object Lab03 {
        * 	compress (List(1,1,2,2,1)) ==> List(1,2,1)
        */
 
+//    var i = 0
+//    var ii = 1
+//
+//    val noDup: ListBuffer[A] = ListBuffer()
+//
+//    // use list buffer
+//
+//    if (i == (xs.size - 1)) noDup.toList else {
+//      noDup.+=(xs(i))
+//      i += 1
+//      ii += 1
+//      compress(xs)
+//
+//    }
+//
+//    if (xs(i).equals(xs(ii))) {
+//      noDup.+=(xs(i))
+//      i += 1
+//      ii += 1
+//      compress(xs)
+//    } else {
+//      i += 1
+//      ii += 1
+//      compress(xs)
+//    }
 
+
+
+
+    //noDup.toList
 
     List()
 
@@ -101,9 +133,11 @@ object Lab03 {
      * 	 findFirst (((x:Int)  => x > 1), List(1,1,2,1,4,1))  ==> Some (2)
      * 	 findFirst (((x:Int)  => x > 4), List(1,1,2,1,4,1))) ==> None
      */
+    xs.find(x => x == 1)
 
+    //val plainDonut: Option[A] = Some(xs.find(x => (x > 1) ))
 
-    None
+    //None
 
 
   }
@@ -141,7 +175,10 @@ object Lab03 {
      * 		isPrime (4) ==> false
      */
 
-    false
+    if (num <= 1) false
+    else if (num == 2) true
+    else !(2 to (num-1)).exists(x => num % x == 0)
+
   }
 
   def allPrimes(start: Int, end: Int): List[Int] = {
@@ -213,8 +250,11 @@ object Lab03 {
      * 		countL (Leaf (0)) ==> 1
      * 		countL (Node(0,(Leaf (0)),Node(0,Leaf( 0),Leaf (0)))) ==> 2
      */
+    tree match {
+      case l:Leaf[A] => 1
+      case b:Node[A] => countL(b.left) + countL(b.right)
+    }
 
-    -1
 
   }
 
