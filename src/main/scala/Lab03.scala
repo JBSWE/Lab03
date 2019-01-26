@@ -63,7 +63,7 @@ object Lab03 {
      * 	last_two (List ()) ===> None
      */
 
-    if (xs.size >= 2) Some(xs(xs.size - 2)) else None
+    if (xs.size >= 2) Some(xs(xs.size - 2)) else if (xs.size == 0) Some(xs(0)) else None
 
   }
 
@@ -133,11 +133,11 @@ object Lab03 {
      * 	 findFirst (((x:Int)  => x > 1), List(1,1,2,1,4,1))  ==> Some (2)
      * 	 findFirst (((x:Int)  => x > 4), List(1,1,2,1,4,1))) ==> None
      */
-    xs.find(x => x == 1)
+    //xs.find(x => x == 1)
 
     //val plainDonut: Option[A] = Some(xs.find(x => (x > 1) ))
 
-    //None
+    None
 
 
   }
@@ -178,6 +178,7 @@ object Lab03 {
     if (num <= 1) false
     else if (num == 2) true
     else !(2 to (num-1)).exists(x => num % x == 0)
+
 
   }
 
