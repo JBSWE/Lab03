@@ -68,7 +68,7 @@ object Lab03 {
   }
 
 
-  def compress[A](xs: List[A]): List[A] = {
+  def compress[A](xs: List[A]): List[A] = xs match {
     /* # 02
        * Implement a recursive function that would remove
        * duplicates that occur consecutively.
@@ -76,38 +76,10 @@ object Lab03 {
        * 	compress (List(1,1,2,2,1)) ==> List(1,2,1)
        */
 
-//    var i = 0
-//    var ii = 1
-//
-//    val noDup: ListBuffer[A] = ListBuffer()
-//
-//    // use list buffer
-//
-//    if (i == (xs.size - 1)) noDup.toList else {
-//      noDup.+=(xs(i))
-//      i += 1
-//      ii += 1
-//      compress(xs)
-//
-//    }
-//
-//    if (xs(i).equals(xs(ii))) {
-//      noDup.+=(xs(i))
-//      i += 1
-//      ii += 1
-//      compress(xs)
-//    } else {
-//      i += 1
-//      ii += 1
-//      compress(xs)
-//    }
-
-
-
-
-    //noDup.toList
-
-    List()
+    case Nil => Nil
+    case xs::List() => List(xs)
+    case xs::tail if (xs == tail.head) => compress(tail)
+    case xs::tail => xs::compress(tail)
 
   }
 
@@ -133,11 +105,11 @@ object Lab03 {
      * 	 findFirst (((x:Int)  => x > 1), List(1,1,2,1,4,1))  ==> Some (2)
      * 	 findFirst (((x:Int)  => x > 4), List(1,1,2,1,4,1))) ==> None
      */
-    //xs.find(x => x == 1)
+//    Option[A] = xs.find(_ > 1 &&  fx)
+//
+//    val plainDonut: Option[A] = Some(xs.find(fx.andThen(x> 1\\)))
 
-    //val plainDonut: Option[A] = Some(xs.find(x => (x > 1) ))
-
-    None
+    xs.find(fx)
 
 
   }
@@ -150,7 +122,7 @@ object Lab03 {
      * 	 findFirst (((x:Int)  => x > 1), List(1,1,2,1,4,1))  ==> Some (4)
      * 	 findFirst (((x:Int)  => x > 4), List(1,1,2,1,4,1))) ==> None
      */
-    None
+    xs.reverse.find(fx)
 
 
   }
@@ -162,8 +134,11 @@ object Lab03 {
      * For example:
      * 		genPairs (3) ===> List((1,2), (2,1))
      */
-    List()
+    val numbers =List.range(1, num-1)
 
+    val pairs = for(x <- numbers; y <- numbers) yield (x, y)
+
+    pairs
   }
 
   def isPrime(num: Int): Boolean = {
