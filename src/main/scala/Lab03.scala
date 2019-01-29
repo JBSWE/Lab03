@@ -176,7 +176,13 @@ object Lab03 {
      * 		pfactors (6)  ==> List(2,3))
      * 		pfactors (12) ==> List(2,2,3))
      */
-    List()
+
+    def foo(num: Int, a: Int = 2, list: List[Int] = Nil): List[Int] = a*a > num match {
+      case false if num % a == 0 => foo(num / a, a    , a :: list)
+      case false               => foo(num    , a + 1, list)
+      case true                => num :: list
+    }
+    foo(num).sorted
   }
 
   def pfactorsM(num: Int): List[(Int, Int)] = {
