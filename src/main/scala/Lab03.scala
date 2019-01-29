@@ -78,6 +78,7 @@ object Lab03 {
 
     case Nil => Nil
     case xs::List() => List(xs)
+
     case xs::tail if (xs == tail.head) => compress(tail)
     case xs::tail => xs::compress(tail)
 
