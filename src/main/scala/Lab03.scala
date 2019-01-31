@@ -1,6 +1,3 @@
-import scala.collection.mutable.ListBuffer
-import scala.collection.script.Remove
-
 object Lab03 {
 
   def main(args: Array[String]): Unit = {
@@ -63,24 +60,30 @@ object Lab03 {
      * 	last_two (List ()) ===> None
      */
 
-    if (xs.size >= 2) Some(xs(xs.size - 2)) else if (xs.size == 0) Some(xs(0)) else None
+    xs match {
+      case Nil => None
+      case x :: Nil => Some(x)
+      case _ => Some(xs(xs.length - 2))
+    }
 
   }
 
 
-  def compress[A](xs: List[A]): List[A] = xs match {
+  def compress[A](xs: List[A]): List[A] = {
     /* # 02
-       * Implement a recursive function that would remove
-       * duplicates that occur consecutively.
-       * For example:
-       * 	compress (List(1,1,2,2,1)) ==> List(1,2,1)
-       */
+     * Implement a recursive function that would remove
+     * duplicates that occur consecutively.
+     * For example:
+     * 	compress (List(1,1,2,2,1)) ==> List(1,2,1)
+     */
 
-    case Nil => Nil
-    case xs::List() => List(xs)
-
-    case xs::tail if (xs == tail.head) => compress(tail)
-    case xs::tail => xs::compress(tail)
+    xs.foldRight(List[A]())((x: A, rest: List[A]) =>
+      rest match {
+        case List() => List(x)
+        case z :: zs if x == z => rest
+        case _ => x :: rest
+      }
+    )
 
   }
 
@@ -92,10 +95,9 @@ object Lab03 {
      * 	 removeDupl (List(1,1,2,2,1)) ==> List(1,2)
      */
 
-    val intersectionOfListSet = xs.intersect(xs.toSet.toList)
-
-    intersectionOfListSet
-
+     xs.foldRight(List[A]())((x: A, rest: List[A]) =>
+      if(rest exists(_ == x)) rest else x::rest
+    )
   }
 
   def findFirst[A](fx: A => Boolean, xs: List[A]): Option[A] = {
@@ -106,12 +108,12 @@ object Lab03 {
      * 	 findFirst (((x:Int)  => x > 1), List(1,1,2,1,4,1))  ==> Some (2)
      * 	 findFirst (((x:Int)  => x > 4), List(1,1,2,1,4,1))) ==> None
      */
-//    Option[A] = xs.find(_ > 1 &&  fx)
-//
-//    val plainDonut: Option[A] = Some(xs.find(fx.andThen(x> 1\\)))
 
-    xs.find(fx)
+    xs.foldLeft(Option.empty[A]) ((pre:Option[A], x:A) =>
+      if (fx(x)) return Some(x) else pre
+    )
 
+    //xs.find(fx)
 
   }
 
@@ -123,9 +125,9 @@ object Lab03 {
      * 	 findFirst (((x:Int)  => x > 1), List(1,1,2,1,4,1))  ==> Some (4)
      * 	 findFirst (((x:Int)  => x > 4), List(1,1,2,1,4,1))) ==> None
      */
-    xs.reverse.find(fx)
-
-
+    xs.foldRight(Option.empty[A]) ((x:A, pre:Option[A]) =>
+      if (fx(x)) return Some(x) else pre
+    )
   }
 
   def genPairs(num: Int): List[(Int, Int)] = {
@@ -135,11 +137,10 @@ object Lab03 {
      * For example:
      * 		genPairs (3) ===> List((1,2), (2,1))
      */
-    val numbers =List.range(1, num-1)
+    val res = for (i <-  1 until num) yield (i, num-1)
 
-    val pairs = for(x <- numbers; y <- numbers) yield (x, y)
+    res.toList
 
-    pairs
   }
 
   def isPrime(num: Int): Boolean = {
@@ -150,10 +151,9 @@ object Lab03 {
      * 		isPrime (2) ==> true
      * 		isPrime (4) ==> false
      */
-
     if (num <= 1) false
     else if (num == 2) true
-    else !(2 to (num-1)).exists(x => num % x == 0)
+    else !(2 to (num - 1)).exists(x => num % x == 0)
 
 
   }
@@ -167,6 +167,12 @@ object Lab03 {
      * 		allPrimes (2, 10) ==> List(2, 3, 5, 7)
      */
 
+    //    val primes = 2 #:: Stream.from(3,2).filter(isPrime)
+    //
+    //    def isPrime(n: Int): Boolean =
+    //      primes.takeWhile(p => p*p <= n).forall(n % _ != 0)
+    //
+    //      primes.takeWhile(_ <= 8).toList
     List()
   }
 
@@ -178,11 +184,12 @@ object Lab03 {
      * 		pfactors (12) ==> List(2,2,3))
      */
 
-    def foo(num: Int, a: Int = 2, list: List[Int] = Nil): List[Int] = a*a > num match {
-      case false if num % a == 0 => foo(num / a, a    , a :: list)
-      case false               => foo(num    , a + 1, list)
-      case true                => num :: list
+    def foo(num: Int, a: Int = 2, list: List[Int] = Nil): List[Int] = a * a > num match {
+      case false if num % a == 0 => foo(num / a, a, a :: list)
+      case false => foo(num, a + 1, list)
+      case true => num :: list
     }
+
     foo(num).sorted
   }
 
@@ -231,11 +238,11 @@ object Lab03 {
      * in a given binary tree
      * For example:
      * 		countL (Leaf (0)) ==> 1
-     * 		countL (Node(0,(Leaf (0)),Node(0,Leaf( 0),Leaf (0)))) ==> 2
+     * 		countL (Node(0,(Leaf (0)),Node(0,Leaf( 0),Leaf (0)))) ==> 3
      */
     tree match {
-      case l:Leaf[A] => 1
-      case b:Node[A] => countL(b.left) + countL(b.right)
+      case l: Leaf[A] => 1
+      case b: Node[A] => countL(b.left) + countL(b.right)
     }
 
 
