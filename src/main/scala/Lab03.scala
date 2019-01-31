@@ -77,13 +77,15 @@ object Lab03 {
      * 	compress (List(1,1,2,2,1)) ==> List(1,2,1)
      */
 
-    xs.foldRight(List[A]())((x: A, rest: List[A]) =>
+    val i = xs.foldRight(List[A]())((x: A, rest: List[A]) =>
       rest match {
         case List() => List(x)
         case z :: zs if x == z => rest
         case _ => x :: rest
       }
     )
+
+    i
 
   }
 
@@ -95,8 +97,11 @@ object Lab03 {
      * 	 removeDupl (List(1,1,2,2,1)) ==> List(1,2)
      */
 
-     xs.foldRight(List[A]())((x: A, rest: List[A]) =>
-      if(rest exists(_ == x)) rest else x::rest
+     xs.foldRight(List[A]()) ((x: A, rest: List[A]) =>
+      if(rest exists (_ == x))
+        rest
+      else
+        x::rest
     )
   }
 
@@ -112,8 +117,6 @@ object Lab03 {
     xs.foldLeft(Option.empty[A]) ((pre:Option[A], x:A) =>
       if (fx(x)) return Some(x) else pre
     )
-
-    //xs.find(fx)
 
   }
 
@@ -137,7 +140,8 @@ object Lab03 {
      * For example:
      * 		genPairs (3) ===> List((1,2), (2,1))
      */
-    val res = for (i <-  1 until num) yield (i, num-1)
+    val res = for (i <- 1 until num)
+              yield (i, num-i)
 
     res.toList
 
@@ -151,9 +155,12 @@ object Lab03 {
      * 		isPrime (2) ==> true
      * 		isPrime (4) ==> false
      */
-    if (num <= 1) false
-    else if (num == 2) true
-    else !(2 to (num - 1)).exists(x => num % x == 0)
+//    if (num <= 1) false
+//    else if (num == 2) true
+//    else !(2 to (num - 1)).exists(x => num % x == 0)
+
+    val max_divisor = scala.math.sqrt(num).toInt
+    (num > 1) && !((2 to max_divisor) exists (num % _ == 0))
 
 
   }
@@ -167,13 +174,10 @@ object Lab03 {
      * 		allPrimes (2, 10) ==> List(2, 3, 5, 7)
      */
 
-    //    val primes = 2 #:: Stream.from(3,2).filter(isPrime)
-    //
-    //    def isPrime(n: Int): Boolean =
-    //      primes.takeWhile(p => p*p <= n).forall(n % _ != 0)
-    //
-    //      primes.takeWhile(_ <= 8).toList
-    List()
+    val list = (start to end)
+    val temp = list.filter((p:Int) => isPrime(p))
+
+    temp.toList
   }
 
   def pfactors(num: Int): List[Int] = {
