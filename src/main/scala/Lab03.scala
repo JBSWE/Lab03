@@ -292,7 +292,10 @@ object Lab03 {
      * For example:
      * 		prefixBT (Node(4,Leaf (1), Leaf (2))) ==> List(4, 1, 2)
      */
-    List()
+    tree match {
+      case Leaf(v) => List(v)
+      case Node(v, left, right) => List(v) ++ prefixBT(left) ++ prefixBT(right)
+    }
   }
 
   def infixBT[A](tree: Tree[A]): List[A] = {
@@ -303,7 +306,10 @@ object Lab03 {
      * For example:
      * 		infixBT (Node(4,Leaf (1), Leaf (2))) ==> List(1, 4, 2)
      */
-    List()
+    tree match {
+      case Leaf(v) => List (v)
+      case Node (v,left,right) => List (v) ++ infixBT(left) ++ infixBT(right)
+    }
   }
 
   def perfectTree(num: Int): Tree[Int] = {
@@ -317,7 +323,11 @@ object Lab03 {
      * 		perfectTree (2) ==> Node(1,Leaf(1),Leaf(1))
      *
      */
-    Leaf(-1)
+    num match {
+      case 1 => Leaf(1)
+      case _ => Node (1, perfectTree(num -1), perfectTree(num -1))
+
+    }
 
   }
 
