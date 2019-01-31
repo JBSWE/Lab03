@@ -341,8 +341,9 @@ object Lab03 {
      * Use higher-order function 'map' to help you in this task.
      */
 
+    val pairs = xs map (x => ys map (y => (x,y)))
 
-    List()
+    pairs.flatten
   }
 
 
@@ -380,7 +381,10 @@ object Lab03 {
      * you in this method.
      */
 
-    List()
+    xs match {
+      case NodeR(v,res) =>
+        v :: res.foldRight(List():List [A]) ((x:roseTree[A], a:List[A]) => prefixRTHO (x) ++ a)
+    }
 
   }
 
@@ -390,7 +394,10 @@ object Lab03 {
      * Use higher-order function 'foldRight' to help
      * you in this method.
      */
-    List()
+    xs match {
+      case NodeR(v,res) =>
+        v :: res.foldRight(List():List [A]) ((x:roseTree[A], a:List[A]) => postfixRTHO(x) ++ a)
+    }
 
   }
 
@@ -400,8 +407,11 @@ object Lab03 {
      * for rose tree.
      * which prints a list of items separated by comma.
      */
-    "Empty"
-
+//    xs match {
+//      case NodeR (v, res) =>
+//        v.toString ++ (pr_args(res))
+//    }
+"String"
   }
 
 
