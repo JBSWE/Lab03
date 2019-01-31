@@ -278,10 +278,9 @@ object Lab03 {
      * 		countL (Node(0,(Leaf (0)),Node(0,Leaf( 0),Leaf (0)))) ==> 3
      */
     tree match {
-      case l: Leaf[A] => 1
-      case b: Node[A] => countL(b.left) + countL(b.right)
+      case leaf: Leaf[A] => 1
+      case node: Node[A] => countL(node.left) + countL(node.right)
     }
-
 
   }
 
