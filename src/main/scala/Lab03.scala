@@ -188,13 +188,23 @@ object Lab03 {
      * 		pfactors (12) ==> List(2,2,3))
      */
 
-    def foo(num: Int, a: Int = 2, list: List[Int] = Nil): List[Int] = a * a > num match {
-      case false if num % a == 0 => foo(num / a, a, a :: list)
-      case false => foo(num, a + 1, list)
-      case true => num :: list
-    }
+//    def foo(num: Int, a: Int = 2, list: List[Int] = Nil): List[Int] = a * a > num match {
+//      case false if num % a == 0 => foo(num / a, a, a :: list)
+//      case false => foo(num, a + 1, list)
+//      case true => num :: list
+//    }
+//
+//    foo(num).sorted
 
-    foo(num).sorted
+    val primes = allPrimes(2, scala.math.sqrt(num).toInt)
+
+    def helper (n: Int): List[Int] = {
+      if(n==1) List() else {
+        val x = primes find (n % _ == 0)
+        x.get :: helper(n/ x.get)
+      }
+    }
+    helper(num)
   }
 
   def pfactorsM(num: Int): List[(Int, Int)] = {
@@ -205,7 +215,25 @@ object Lab03 {
      * 		pfactorsM 6  ==> List((2,1), (3,1))
      * 		pfactorsM 12 ==> List((2,2), (3,1))
      */
-    List()
+
+    val primes = allPrimes(2, scala.math.sqrt(num).toInt)
+
+    def helper (n: Int, last: (Int, Int), acc:List[(Int,Int)]): List[(Int,Int)] = {
+      last match{
+        case (p, c) =>
+          if (n ==1) acc ++ List((p,c)) else {
+            val x = primes find (n % _ == 0)
+            if (p == x.get)
+              helper(n/x.get, (p, c+1), acc)
+            else
+          helper(n/x.get,(x.get, 1), acc ++ List((p, c)))
+            }
+      }
+
+    }
+    val x = primes find (num % _ == 0)
+    helper(num/x.get, (x.get,1), List())
+
   }
 
   def goldbach(num: Int): (Int, Int) = {
@@ -221,9 +249,14 @@ object Lab03 {
      * 		goldbach 8 ==> (3,5)
      */
 
+    val posPairs = genPairs(num)
+
+    for (tuple <- posPairs) {
+      if (isPrime(tuple._1) && isPrime(tuple._2)) return tuple
+    }
+
     (-1, -1)
   }
-
 
   // Here is the definition of Trees
   sealed trait Tree[A]
