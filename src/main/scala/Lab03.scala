@@ -97,11 +97,11 @@ object Lab03 {
      * 	 removeDupl (List(1,1,2,2,1)) ==> List(1,2)
      */
 
-     xs.foldRight(List[A]()) ((x: A, rest: List[A]) =>
-      if(rest exists (_ == x))
+    xs.foldRight(List[A]())((x: A, rest: List[A]) =>
+      if (rest exists (_ == x))
         rest
       else
-        x::rest
+        x :: rest
     )
   }
 
@@ -114,7 +114,7 @@ object Lab03 {
      * 	 findFirst (((x:Int)  => x > 4), List(1,1,2,1,4,1))) ==> None
      */
 
-    xs.foldLeft(Option.empty[A]) ((pre:Option[A], x:A) =>
+    xs.foldLeft(Option.empty[A])((pre: Option[A], x: A) =>
       if (fx(x)) return Some(x) else pre
     )
 
@@ -128,7 +128,7 @@ object Lab03 {
      * 	 findFirst (((x:Int)  => x > 1), List(1,1,2,1,4,1))  ==> Some (4)
      * 	 findFirst (((x:Int)  => x > 4), List(1,1,2,1,4,1))) ==> None
      */
-    xs.foldRight(Option.empty[A]) ((x:A, pre:Option[A]) =>
+    xs.foldRight(Option.empty[A])((x: A, pre: Option[A]) =>
       if (fx(x)) return Some(x) else pre
     )
   }
@@ -141,7 +141,7 @@ object Lab03 {
      * 		genPairs (3) ===> List((1,2), (2,1))
      */
     val res = for (i <- 1 until num)
-              yield (i, num-i)
+      yield (i, num - i)
 
     res.toList
 
@@ -155,9 +155,9 @@ object Lab03 {
      * 		isPrime (2) ==> true
      * 		isPrime (4) ==> false
      */
-//    if (num <= 1) false
-//    else if (num == 2) true
-//    else !(2 to (num - 1)).exists(x => num % x == 0)
+    //    if (num <= 1) false
+    //    else if (num == 2) true
+    //    else !(2 to (num - 1)).exists(x => num % x == 0)
 
     val max_divisor = scala.math.sqrt(num).toInt
     (num > 1) && !((2 to max_divisor) exists (num % _ == 0))
@@ -175,7 +175,7 @@ object Lab03 {
      */
 
     val list = (start to end)
-    val temp = list.filter((p:Int) => isPrime(p))
+    val temp = list.filter((p: Int) => isPrime(p))
 
     temp.toList
   }
@@ -188,22 +188,23 @@ object Lab03 {
      * 		pfactors (12) ==> List(2,2,3))
      */
 
-//    def foo(num: Int, a: Int = 2, list: List[Int] = Nil): List[Int] = a * a > num match {
-//      case false if num % a == 0 => foo(num / a, a, a :: list)
-//      case false => foo(num, a + 1, list)
-//      case true => num :: list
-//    }
-//
-//    foo(num).sorted
+    //    def foo(num: Int, a: Int = 2, list: List[Int] = Nil): List[Int] = a * a > num match {
+    //      case false if num % a == 0 => foo(num / a, a, a :: list)
+    //      case false => foo(num, a + 1, list)
+    //      case true => num :: list
+    //    }
+    //
+    //    foo(num).sorted
 
     val primes = allPrimes(2, scala.math.sqrt(num).toInt)
 
-    def helper (n: Int): List[Int] = {
-      if(n==1) List() else {
+    def helper(n: Int): List[Int] = {
+      if (n == 1) List() else {
         val x = primes find (n % _ == 0)
-        x.get :: helper(n/ x.get)
+        x.get :: helper(n / x.get)
       }
     }
+
     helper(num)
   }
 
@@ -218,21 +219,22 @@ object Lab03 {
 
     val primes = allPrimes(2, scala.math.sqrt(num).toInt)
 
-    def helper (n: Int, last: (Int, Int), acc:List[(Int,Int)]): List[(Int,Int)] = {
-      last match{
+    def helper(n: Int, last: (Int, Int), acc: List[(Int, Int)]): List[(Int, Int)] = {
+      last match {
         case (p, c) =>
-          if (n ==1) acc ++ List((p,c)) else {
+          if (n == 1) acc ++ List((p, c)) else {
             val x = primes find (n % _ == 0)
             if (p == x.get)
-              helper(n/x.get, (p, c+1), acc)
+              helper(n / x.get, (p, c + 1), acc)
             else
-          helper(n/x.get,(x.get, 1), acc ++ List((p, c)))
-            }
+              helper(n / x.get, (x.get, 1), acc ++ List((p, c)))
+          }
       }
 
     }
+
     val x = primes find (num % _ == 0)
-    helper(num/x.get, (x.get,1), List())
+    helper(num / x.get, (x.get, 1), List())
 
   }
 
@@ -307,8 +309,8 @@ object Lab03 {
      * 		infixBT (Node(4,Leaf (1), Leaf (2))) ==> List(1, 4, 2)
      */
     tree match {
-      case Leaf(v) => List (v)
-      case Node (v,left,right) => List (v) ++ infixBT(left) ++ infixBT(right)
+      case Leaf(v) => List(v)
+      case Node(v, left, right) => List(v) ++ infixBT(left) ++ infixBT(right)
     }
   }
 
@@ -325,7 +327,7 @@ object Lab03 {
      */
     num match {
       case 1 => Leaf(1)
-      case _ => Node (1, perfectTree(num -1), perfectTree(num -1))
+      case _ => Node(1, perfectTree(num - 1), perfectTree(num - 1))
 
     }
 
@@ -341,7 +343,7 @@ object Lab03 {
      * Use higher-order function 'map' to help you in this task.
      */
 
-    val pairs = xs map (x => ys map (y => (x,y)))
+    val pairs = xs map (x => ys map (y => (x, y)))
 
     pairs.flatten
   }
@@ -382,8 +384,8 @@ object Lab03 {
      */
 
     xs match {
-      case NodeR(v,res) =>
-        v :: res.foldRight(List():List [A]) ((x:roseTree[A], a:List[A]) => prefixRTHO (x) ++ a)
+      case NodeR(v, res) =>
+        v :: res.foldRight(List(): List[A])((x: roseTree[A], a: List[A]) => prefixRTHO(x) ++ a)
     }
 
   }
@@ -395,8 +397,8 @@ object Lab03 {
      * you in this method.
      */
     xs match {
-      case NodeR(v,res) =>
-        v :: res.foldRight(List():List [A]) ((x:roseTree[A], a:List[A]) => postfixRTHO(x) ++ a)
+      case NodeR(v, res) =>
+        v :: res.foldRight(List(): List[A])((x: roseTree[A], a: List[A]) => postfixRTHO(x) ++ a)
     }
 
   }
@@ -407,11 +409,19 @@ object Lab03 {
      * for rose tree.
      * which prints a list of items separated by comma.
      */
-//    xs match {
-//      case NodeR (v, res) =>
-//        v.toString ++ (pr_args(res))
-//    }
-"String"
+
+    def pr_args(xs: List[roseTree[A]]): String = {
+      xs match {
+        case List() => ""
+        case _ => "(" ++ (xs.tail.foldLeft(string_of_RT(xs.head))((acc, x) => acc ++ "," ++ string_of_RT(x))) ++ ")"
+      }
+    }
+
+    xs match {
+      case NodeR(v, res) =>
+        v.toString ++ (pr_args(res))
+    }
+
   }
 
 
