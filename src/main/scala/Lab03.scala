@@ -310,7 +310,7 @@ object Lab03 {
      */
     tree match {
       case Leaf(v) => List(v)
-      case Node(v, left, right) => List(v) ++ infixBT(left) ++ infixBT(right)
+      case Node(v, left, right) => infixBT(left) ++ List(v) ++ infixBT(right)
     }
   }
 
@@ -398,7 +398,7 @@ object Lab03 {
      */
     xs match {
       case NodeR(v, res) =>
-        v :: res.foldRight(List(): List[A])((x: roseTree[A], a: List[A]) => postfixRTHO(x) ++ a)
+        res.foldRight(List(): List[A])((x: roseTree[A], a: List[A]) => postfixRTHO(x) ++ a) ++ List(v)
     }
 
   }
